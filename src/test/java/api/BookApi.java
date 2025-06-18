@@ -17,9 +17,9 @@ public class BookApi {
         given(bookRequestSpecs)
                 .header("Authorization", "Bearer " + loginResponse.getToken())
                 .queryParam("UserId", loginResponse.getUserId())
-                .when()
+        .when()
                 .delete("/BookStore/v1/Books")
-                .then()
+        .then()
                 .spec(bookResponseSpecs)
                 .statusCode(204);
     }
@@ -35,9 +35,9 @@ public class BookApi {
         given(bookRequestSpecs)
                 .header("Authorization", "Bearer " + loginResponse.getToken())
                 .body(bookList)
-                .when()
+        .when()
                 .post("/BookStore/v1/Books")
-                .then()
+        .then()
                 .spec(bookResponseSpecs)
                 .statusCode(201);
     }
@@ -50,9 +50,9 @@ public class BookApi {
         given(bookRequestSpecs)
                 .header("Authorization", "Bearer " + loginResponse.getToken())
                 .body(deleteBook)
-                .when()
+        .when()
                 .delete("/BookStore/v1/Book")
-                .then()
+        .then()
                 .spec(bookResponseSpecs)
                 .statusCode(204);
     }

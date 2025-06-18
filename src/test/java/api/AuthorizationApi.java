@@ -12,9 +12,9 @@ public class AuthorizationApi {
     public static LoginResponseModel login(CredentialsModel credentials) {
         return given(authorizationRequestSpecs)
                 .body(credentials)
-                .when()
+        .when()
                 .post("/Account/v1/Login")
-                .then()
+        .then()
                 .spec(authorizationResponseSpecs)
                 .statusCode(200)
                 .extract().as(LoginResponseModel.class);
