@@ -1,8 +1,12 @@
 package configuration;
 
-import com.codeborne.selenide.Configuration;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import java.util.Map;
+
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+import com.codeborne.selenide.Configuration;
+
+import io.restassured.RestAssured;
 
 public class TestConfiguration {
 
@@ -12,7 +16,8 @@ public class TestConfiguration {
 
     public static void configure() {
         configureBrowser();
-        configureSelenoid();
+       configureSelenoid();
+       configureRestAssured();
     }
 
     private static void configureBrowser() {
@@ -33,4 +38,9 @@ public class TestConfiguration {
             Configuration.browserCapabilities = capabilities;
         }
     }
+
+    private static void configureRestAssured() {
+        RestAssured.baseURI = "https://demoqa.com";
+    }
+
 }

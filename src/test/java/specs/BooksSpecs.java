@@ -13,8 +13,7 @@ public class BooksSpecs {
     public static final RequestSpecification bookRequestSpecs = with()
             .filter(withCustomTemplates())
             .contentType(JSON)
-            .log().uri()
-            .log().method();
+            .log().all();
 
     public static final ResponseSpecification bookResponseSpecs = new ResponseSpecBuilder()
             .log(LogDetail.STATUS)
