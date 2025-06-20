@@ -3,7 +3,7 @@ package api;
 import models.AddBookModel;
 import models.DeleteBookModel;
 import models.IsbnModel;
-import models.LoginResponseModel;
+import helpers.LoginExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +13,10 @@ import static specs.BooksSpecs.bookRequestSpecs;
 import static specs.BooksSpecs.bookResponseSpecs;
 
 public class BookApi {
-    public void deleteAllBooks(LoginResponseModel loginResponse) {
+    public void deleteAllBooks() {
         given(bookRequestSpecs)
-                .header("Authorization", "Bearer " + loginResponse.getToken())
-                .queryParam("UserId", loginResponse.getUserId())
+                .header("Authorization", "Bearer " + LoginExtension.getLoginResponse().getToken())
+                .queryParam("UserId", LoginExtension.getLoginResponse().getUserId())
         .when()
                 .delete("/BookStore/v1/Books")
         .then()
@@ -24,16 +24,16 @@ public class BookApi {
                 .statusCode(204);
     }
 
-    public void addBook(LoginResponseModel loginResponse, AddBookModel bookList) {
+    public void addBook(AddBookModel bookList) {
         IsbnModel isbn = new IsbnModel("9781491904244");
         List<IsbnModel> isbnList = new ArrayList<>();
         isbnList.add(isbn);
 
-        bookList.setUserId(loginResponse.getUserId());
+        bookList.setUserId(LoginExtension.getLoginResponse().getUserId());
         bookList.setCollectionOfIsbns(isbnList);
 
         given(bookRequestSpecs)
-                .header("Authorization", "Bearer " + loginResponse.getToken())
+                .header("Authorization", "Bearer " + LoginExtension.getLoginResponse().getToken())
                 .body(bookList)
         .when()
                 .post("/BookStore/v1/Books")
@@ -42,13 +42,13 @@ public class BookApi {
                 .statusCode(201);
     }
 
-    public void deleteBook(LoginResponseModel loginResponse, String isbn) {
+    public void deleteBook(String isbn) {
         DeleteBookModel deleteBook = new DeleteBookModel();
-        deleteBook.setUserId(loginResponse.getUserId());
+        deleteBook.setUserId(LoginExtension.getLoginResponse().getUserId());
         deleteBook.setIsbn(isbn);
 
         given(bookRequestSpecs)
-                .header("Authorization", "Bearer " + loginResponse.getToken())
+                .header("Authorization", "Bearer " + LoginExtension.getLoginResponse().getToken())
                 .body(deleteBook)
         .when()
                 .delete("/BookStore/v1/Book")
