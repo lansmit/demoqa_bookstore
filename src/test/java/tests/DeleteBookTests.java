@@ -1,13 +1,11 @@
 package tests;
 
 import models.AddBookModel;
-import models.LoginResponseModel;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import helpers.WithLogin;
-import helpers.LoginExtension;
 
 import static io.qameta.allure.Allure.step;
 
