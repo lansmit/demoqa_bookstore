@@ -13,7 +13,7 @@ public class ProfilePage {
     }
 
     public void checkExistenceOfBook(String isbn) {
-        $("[href='profile?book=" + isbn + "']").should(exist);
+        $("[href='/profile?book=" + isbn + "']").should(exist);
     }
 
     public void checkAbsenceOfBook(String isbn) {

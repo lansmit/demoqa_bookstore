@@ -25,6 +25,7 @@ public class BaseTest {
         // Browser config
         Configuration.browserSize = "1920x1080";
         Configuration.pageLoadStrategy = "eager";
+        Configuration.baseUrl = "https://demoqa.com";
 
         // Selenoid config
         String SELENOID_URL = System.getProperty("selenoid.url");
