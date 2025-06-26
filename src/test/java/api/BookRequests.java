@@ -9,19 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
-import static specs.BooksSpecs.bookRequestSpecs;
-import static specs.BooksSpecs.bookResponseSpecs;
+import static specs.BaseSpecs.requestSpec;
+import static specs.BaseSpecs.responseSpec;
 
-public class BookApi {
+public class BookRequests {
     public void deleteAllBooks() {
-        given(bookRequestSpecs)
+        given(requestSpec)
                 .header("Authorization", "Bearer " + LoginExtension.getLoginResponse().getToken())
                 .queryParam("UserId", LoginExtension.getLoginResponse().getUserId())
         .when()
                 .delete("/BookStore/v1/Books")
         .then()
-                .spec(bookResponseSpecs)
-                .statusCode(204);
+                .spec(responseSpec(204));
     }
 
     public void addBook(AddBookModel bookList) {
@@ -32,14 +31,13 @@ public class BookApi {
         bookList.setUserId(LoginExtension.getLoginResponse().getUserId());
         bookList.setCollectionOfIsbns(isbnList);
 
-        given(bookRequestSpecs)
+        given(requestSpec)
                 .header("Authorization", "Bearer " + LoginExtension.getLoginResponse().getToken())
                 .body(bookList)
         .when()
                 .post("/BookStore/v1/Books")
         .then()
-                .spec(bookResponseSpecs)
-                .statusCode(201);
+                .spec(responseSpec(201));
     }
 
     public void deleteBook(String isbn) {
@@ -47,13 +45,12 @@ public class BookApi {
         deleteBook.setUserId(LoginExtension.getLoginResponse().getUserId());
         deleteBook.setIsbn(isbn);
 
-        given(bookRequestSpecs)
+        given(requestSpec)
                 .header("Authorization", "Bearer " + LoginExtension.getLoginResponse().getToken())
                 .body(deleteBook)
         .when()
                 .delete("/BookStore/v1/Book")
         .then()
-                .spec(bookResponseSpecs)
-                .statusCode(204);
+                .spec(responseSpec(204));
     }
 }

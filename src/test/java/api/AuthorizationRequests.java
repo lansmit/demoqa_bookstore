@@ -4,19 +4,18 @@ import models.CredentialsModel;
 import models.LoginResponseModel;
 
 import static io.restassured.RestAssured.given;
-import static specs.AuthorizationSpecs.authorizationRequestSpecs;
-import static specs.AuthorizationSpecs.authorizationResponseSpecs;
+import static specs.BaseSpecs.requestSpec;
+import static specs.BaseSpecs.responseSpec;
 
-public class AuthorizationApi {
+public class AuthorizationRequests {
 
     public static LoginResponseModel login(CredentialsModel credentials) {
-        return given(authorizationRequestSpecs)
+        return given(requestSpec)
                 .body(credentials)
         .when()
                 .post("/Account/v1/Login")
         .then()
-                .spec(authorizationResponseSpecs)
-                .statusCode(200)
+                .spec(responseSpec(200))
                 .extract().as(LoginResponseModel.class);
     }
 }

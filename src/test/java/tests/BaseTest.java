@@ -1,10 +1,9 @@
 package tests;
 
-import api.AuthorizationApi;
-import api.BookApi;
+import api.AuthorizationRequests;
+import api.BookRequests;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
-import configuration.TestConfiguration;
 import helpers.Attach;
 import io.qameta.allure.selenide.AllureSelenide;
 import io.restassured.RestAssured;
@@ -18,13 +17,32 @@ import java.util.Map;
 
 public class BaseTest {
 
-    public AuthorizationApi authorizationApi = new AuthorizationApi();
-    public BookApi bookApi = new BookApi();
+    public BookRequests bookRequests = new BookRequests();
     public ProfilePage profile = new ProfilePage();
 
     @BeforeAll
     static void setUp() {
-        TestConfiguration.configure();
+        // Browser config
+        Configuration.browserSize = "1920x1080";
+        Configuration.pageLoadStrategy = "eager";
+
+        // Selenoid config
+        String SELENOID_URL = System.getProperty("selenoid.url");
+        String SELENOID_LOGIN = System.getProperty("selenoid.login");
+        String SELENOID_PASSWORD = System.getProperty("selenoid.password");
+        if (SELENOID_URL != null) {
+            Configuration.remote = String.format("https://%s:%s@%s/wd/hub",
+                    SELENOID_LOGIN, SELENOID_PASSWORD, SELENOID_URL);
+            DesiredCapabilities capabilities = new DesiredCapabilities();
+            capabilities.setCapability("selenoid:options", Map.of(
+                    "enableVNC", true,
+                    "enableVideo", true
+            ));
+            Configuration.browserCapabilities = capabilities;
+        }
+
+        // RestAssured config
+        RestAssured.baseURI = "https://demoqa.com";
     }
 
     @BeforeEach

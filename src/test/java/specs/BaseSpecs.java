@@ -9,15 +9,17 @@ import static helpers.CustomAllureListener.withCustomTemplates;
 import static io.restassured.RestAssured.with;
 import static io.restassured.http.ContentType.JSON;
 
-public class AuthorizationSpecs {
-    public static RequestSpecification authorizationRequestSpecs = with()
+public class BaseSpecs {
+    public static final RequestSpecification requestSpec = with()
             .filter(withCustomTemplates())
-            .log().uri()
-            .log().method()
-            .contentType(JSON);
+            .contentType(JSON)
+            .log().all();
 
-    public static ResponseSpecification authorizationResponseSpecs = new ResponseSpecBuilder()
-            .log(LogDetail.STATUS)
-            .log(LogDetail.BODY)
-            .build();
-}
+    public static ResponseSpecification responseSpec(int expectedStatusCode) {
+        return new ResponseSpecBuilder()
+                .log(LogDetail.STATUS)
+                .log(LogDetail.BODY)
+                .expectStatusCode(expectedStatusCode)
+                .build();
+    }
+} 

@@ -17,18 +17,23 @@ public class DeleteBookTests extends BaseTest {
     void deleteBookTest() {
         String isbn = "9781491904244";
 
-        step("Авторизоваться в профиле с пустой корзиной", () ->
-                bookApi.deleteAllBooks());
+        step("Удаляем все книги", () ->
+            bookRequests.deleteAllBooks());
 
-        step("Добавить книгу в профиль", () ->
-                bookApi.addBook(new AddBookModel()));
+        step("Добавляем книгу", () ->
+            bookRequests.addBook(new AddBookModel()));
 
-        step("Удалить книгу из профиля", () ->
-                bookApi.deleteBook(isbn));
+        step("Открыть UI и убедиться, что книга добавлена", () -> {
+            profile.openProfile()
+                    .checkExistenceOfBook(isbn);
+        });
+
+        step("Удаляем книгу", () ->
+            bookRequests.deleteBook(isbn));
 
         step("Открыть UI и убедиться, что книга отсутствует", () -> {
             profile.openProfile()
-                    .checkExistenceOfBook(isbn);
+                    .checkAbsenceOfBook(isbn);
         });
     }
 }
