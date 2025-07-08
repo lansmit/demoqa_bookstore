@@ -21,9 +21,15 @@ public class LoginExtension implements BeforeEachCallback {
     public void beforeEach(ExtensionContext context) {
         loginResponse = AuthorizationRequests.login(TestData.credentials);
 
+        // Проверяем, что все необходимые поля не null
+        if (loginResponse.getUserId() == null || loginResponse.getToken() == null || loginResponse.getExpires() == null) {
+            throw new IllegalStateException("Login response contains null values: userId=" + loginResponse.getUserId() + 
+                ", token=" + loginResponse.getToken() + ", expires=" + loginResponse.getExpires());
+        }
+
         open("/favicon.ico");
-        getWebDriver().manage().addCookie(new Cookie("userID", loginResponse.getUserId()));
-        getWebDriver().manage().addCookie(new Cookie("token", loginResponse.getToken()));
-        getWebDriver().manage().addCookie(new Cookie("expires", loginResponse.getExpires()));
+        getWebDriver().manage().addCookie(new Cookie("userID", loginResponse.getUserId(), "/"));
+        getWebDriver().manage().addCookie(new Cookie("token", loginResponse.getToken(), "/"));
+        getWebDriver().manage().addCookie(new Cookie("expires", loginResponse.getExpires(), "/"));
     }
 }
