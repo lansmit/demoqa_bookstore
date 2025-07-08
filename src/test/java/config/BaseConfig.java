@@ -16,11 +16,9 @@ public class BaseConfig {
 
     public void setUp() {
         // Browser config
-        Configuration.browserSize = "1920x1080";
-        Configuration.pageLoadStrategy = "eager";
-        Configuration.baseUrl = "https://demoqa.com";
-
-
+        Configuration.baseUrl = webConfig.getBaseUrl();
+        Configuration.browserVersion = webConfig.getBrowserVersion();
+        Configuration.browserSize = webConfig.getBrowserSize();
 
         // Selenoid config
         String SELENOID_URL = System.getProperty("selenoid.url");

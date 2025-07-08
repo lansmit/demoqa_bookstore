@@ -10,7 +10,7 @@ import org.aeonbits.owner.Config;
 
 public interface WebConfig extends Config {
     @Key("browserVersion")
-    @DefaultValue("137.0")
+    @DefaultValue("138.0")
     String getBrowserVersion();
 
     @Key("browserSize")
