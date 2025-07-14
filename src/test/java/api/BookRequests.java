@@ -9,12 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
-import static specs.BaseSpecs.requestSpec;
+import static specs.BaseSpecs.getRequestSpec;
 import static specs.BaseSpecs.responseSpec;
 
 public class BookRequests {
     public void deleteAllBooks() {
-        given(requestSpec)
+        given(getRequestSpec())
                 .header("Authorization", "Bearer " + LoginExtension.getLoginResponse().getToken())
                 .queryParam("UserId", LoginExtension.getLoginResponse().getUserId())
         .when()
@@ -31,7 +31,7 @@ public class BookRequests {
         bookList.setUserId(LoginExtension.getLoginResponse().getUserId());
         bookList.setCollectionOfIsbns(isbnList);
 
-        given(requestSpec)
+        given(getRequestSpec())
                 .header("Authorization", "Bearer " + LoginExtension.getLoginResponse().getToken())
                 .body(bookList)
         .when()
@@ -45,7 +45,7 @@ public class BookRequests {
         deleteBook.setUserId(LoginExtension.getLoginResponse().getUserId());
         deleteBook.setIsbn(isbn);
 
-        given(requestSpec)
+        given(getRequestSpec())
                 .header("Authorization", "Bearer " + LoginExtension.getLoginResponse().getToken())
                 .body(deleteBook)
         .when()

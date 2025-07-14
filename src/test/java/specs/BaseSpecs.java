@@ -10,10 +10,12 @@ import static io.restassured.RestAssured.with;
 import static io.restassured.http.ContentType.JSON;
 
 public class BaseSpecs {
-    public static final RequestSpecification requestSpec = with()
+    public static RequestSpecification getRequestSpec() {
+        return with()
             .filter(withCustomTemplates())
             .contentType(JSON)
             .log().all();
+    }
 
     public static ResponseSpecification responseSpec(int expectedStatusCode) {
         return new ResponseSpecBuilder()
